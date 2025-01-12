@@ -44,28 +44,28 @@ jobs:
           context: ./frontend
           file: ./frontend/Dockerfile
 
-        # 6. docker-compose 내용을 원격으로 실행
+      # 6. docker-compose 내용을 원격으로 실행
       - name: Deploy to Server without copying docker-compose.yml
         uses: appleboy/ssh-action@v0.1.8
         with:
-            host: ${{ secrets.SERVER_HOST }}
-            username: ${{ secrets.SERVER_USER }}
-            key: ${{ secrets.SERVER_KEY }}
-            script: |
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SERVER_KEY }}
+          script: |
             mkdir -p /home/ubuntu/flolink-deploy
             echo '
             version: "3.8"
             services:
-                backend:
+              backend:
                 image: ${{ secrets.DOCKER_USERNAME }}/flolink-backend-service:latest
                 ports:
-                    - "8080:8080"
+                  - "8080:8080"
                 environment:
-                    SPRING_PROFILES_ACTIVE: production
-                frontend:
+                  SPRING_PROFILES_ACTIVE: production
+              frontend:
                 image: ${{ secrets.DOCKER_USERNAME }}/flolink-frontend-service:latest
                 ports:
-                    - "80:80"
+                  - "80:80"
             ' > /home/ubuntu/flolink-deploy/docker-compose.yml
             cd /home/ubuntu/flolink-deploy
             docker-compose down
