@@ -16,24 +16,27 @@ jobs:
       # 1. 소스코드 체크아웃
       - name: Checkout code
         uses: actions/checkout@v3
-
-      # 2. Backend Docker 빌드 및 Push
-      - name: Build and Push Backend Image
-        uses: docker/build-push-action@v4
+      - uses: docker/setup-buildx-action@v3
+      - uses: docker/login-action@v3
         with:
-          push: true
-          tags: ${{ secrets.DOCKER_USERNAME }}/flolink-backend-service:latest
-          context: ./backend
-          file: ./backend/Dockerfile
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
+      # 2. Backend Docker 빌드 및 Push
+      - name: Build and Push Backend Image
+        uses: docker/build-push-action@v3
+        with:
+          context: .
+          push: true
+          tags: ${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}-backend:latest
+          context: ./backend
+          file: ./backend/Dockerfile
 
       # 3. Frontend Docker 빌드 및 Push
       - name: Build and Push Frontend Image
         uses: docker/build-push-action@v4
         with:
           push: true
-          tags: ${{ secrets.DOCKER_USERNAME }}/flolink-frontend-service:latest
+          tags: ${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}-frontend:latest
           context: ./frontend
           file: ./frontend/Dockerfile
           username: ${{ secrets.DOCKER_USERNAME }}
