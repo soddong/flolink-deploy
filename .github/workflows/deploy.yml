@@ -25,7 +25,6 @@ jobs:
       - name: Build and Push Backend Image
         uses: docker/build-push-action@v3
         with:
-          context: .
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}-backend:latest
           context: ./backend
