@@ -1,12 +1,11 @@
-# Step 1: JDK 21.0.4 기반 이미지 사용
-FROM openjdk:21-alpine AS build
+# Use JDK 21-alpine as the base image
+FROM openjdk:21-alpine
 
 # Set working directory
 WORKDIR /app
 
-# Step 2: Gradle 수동 설치
-# Gradle 버전을 직접 설치 (예: Gradle 8.3)
-RUN apt-get update && apt-get install -y wget unzip && \
+# Install necessary tools and Gradle manually
+RUN apk update && apk add --no-cache wget unzip && \
     wget https://services.gradle.org/distributions/gradle-8.3-bin.zip -O /tmp/gradle.zip && \
     mkdir /opt/gradle && \
     unzip /tmp/gradle.zip -d /opt/gradle && \
@@ -19,23 +18,21 @@ ENV PATH=$GRADLE_HOME/bin:$PATH
 # Verify Gradle installation
 RUN gradle --version
 
-# Step 3: Copy Gradle Wrapper and project files
+# Copy Gradle Wrapper and project configuration files
 COPY gradlew ./
 COPY gradle ./gradle
 COPY build.gradle settings.gradle ./
 RUN chmod +x gradlew
 
-# Download dependencies
+# Download project dependencies
 RUN ./gradlew dependencies --no-daemon
 
-# Step 4: Copy source code and build
+# Copy the entire source code and build the project
 COPY . .
 RUN ./gradlew build -x test --no-daemon
 
-# Step 5: JRE 21.0.4 기반 런타임 이미지 생성
-FROM openjdk:21.0.4-jre-slim
-WORKDIR /app
-COPY --from=build /app/build/libs/*.jar /app/backend.jar
+# Expose the application port (e.g., 8080)
+EXPOSE 8080
 
 # Start the application
-ENTRYPOINT ["java", "-jar", "/app/backend.jar"]
+ENTRYPOINT ["java", "-jar", "/app/build/libs/backend.jar"]
