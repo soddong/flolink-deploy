@@ -33,6 +33,15 @@ RUN ./gradlew dependencies --no-daemon
 COPY . .
 RUN ./gradlew build -x test --no-daemon
 
+# Stage 2: Runtime Stage
+FROM openjdk:21-jdk-slim
+
+# Set working directory
+WORKDIR /app
+
+# Copy the JAR file from the build stage
+COPY --from=build /app/build/libs/*.jar /app/backend.jar
+
 # Expose the application port
 EXPOSE 8080
 
