@@ -4,6 +4,8 @@ FROM openjdk:21-jdk-slim
 # Set working directory
 WORKDIR /app
 
+COPY build/libs/flolink-0.0.1-SNAPSHOT.jar /app/backend.jar
+
 # Install necessary tools
 RUN apt-get update && apt-get install -y \
     bash \
@@ -36,4 +38,4 @@ RUN ./gradlew build -x test --no-daemon
 EXPOSE 8080
 
 # Start the application
-ENTRYPOINT ["java", "-jar", "/build/libs/backend.jar"]
+ENTRYPOINT ["java", "-jar", "/app/backend.jar"]
