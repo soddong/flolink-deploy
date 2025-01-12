@@ -25,7 +25,7 @@ jobs:
           tags: ${{ secrets.DOCKER_USERNAME }}/flolink-backend-service:latest
           context: ./backend
           file: ./backend/Dockerfile
-        env:
+        secrets:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
 
@@ -37,7 +37,7 @@ jobs:
           tags: ${{ secrets.DOCKER_USERNAME }}/flolink-frontend-service:latest
           context: ./frontend
           file: ./frontend/Dockerfile
-        env:
+        secrets:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
 
