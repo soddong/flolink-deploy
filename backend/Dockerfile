@@ -20,7 +20,7 @@ COPY build.gradle settings.gradle ./
 
 # Ensure Gradle Wrapper has execute permissions
 RUN dos2unix ./gradlew
-RUN sudo chmod +x ./gradlew
+RUN chmod +x ./gradlew
 RUN chown root:root ./gradlew
 
 # Debug Gradle Wrapper
@@ -31,7 +31,7 @@ RUN ./gradlew dependencies --no-daemon
 
 # Copy source code and build the project
 COPY . .
-RUN ./gradlew build -x test --no-daemon
+RUN sudo ./gradlew build -x test --no-daemon
 
 # Expose the application port
 EXPOSE 8080
