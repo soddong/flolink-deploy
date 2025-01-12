@@ -11,7 +11,7 @@ COPY package*.json ./
 RUN npm install
 
 # 소스 코드 복사
-COPY . .
+COPY . /app
 
 # 애플리케이션 빌드
 RUN npm run build
@@ -23,7 +23,7 @@ FROM nginx:1.23-alpine
 RUN rm -rf /usr/share/nginx/html/*
 
 # 빌드 결과물을 Nginx로 복사
-COPY --from=build /app/build /usr/share/nginx/html
+COPY --from=build /app/dist /usr/share/nginx/html
 
 # Nginx 포트 열기
 EXPOSE 80
