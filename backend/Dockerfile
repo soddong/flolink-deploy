@@ -1,11 +1,11 @@
 # Use JDK 21-alpine as the base image
-FROM openjdk:21-alpine
+FROM openjdk:21-jdk-slim
 
 # Set working directory
 WORKDIR /app
 
 # Install necessary tools and Gradle manually
-RUN apk update && apk add --no-cache wget unzip && \
+RUN apt-get update && apt-get install -y wget unzip && \
     wget https://services.gradle.org/distributions/gradle-8.3-bin.zip -O /tmp/gradle.zip && \
     mkdir /opt/gradle && \
     unzip /tmp/gradle.zip -d /opt/gradle && \
