@@ -19,7 +19,7 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           push: true
-          tags: gus9300/flolink-backend-service:latest
+          tags: ${{ secrets.DOCKER_USERNAME }}/flolink-backend-service:latest
           context: ./backend
           file: ./backend/Dockerfile
         env:
@@ -31,7 +31,7 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           push: true
-          tags: gus9300/flolink-frontend-service:latest
+          tags: ${{ secrets.DOCKER_USERNAME }}/flolink-frontend-service:latest
           context: ./frontend
           file: ./frontend/Dockerfile
         env:
