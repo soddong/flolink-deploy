@@ -49,8 +49,8 @@ jobs:
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SERVER_KEY }}
           script: |
-            mkdir -p /home/ubuntu/flolink
-            cd /home/ubuntu/flolink
+            mkdir -p /home/ubuntu/flolink-deploy
+            cd /home/ubuntu/flolink-deploy
             docker-compose down
             docker-compose pull
             docker-compose up -d
