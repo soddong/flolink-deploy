@@ -1,5 +1,5 @@
 # Step 1: JDK 21.0.4 기반 이미지 사용
-FROM openjdk:21.0.4-jdk-slim AS build
+FROM openjdk:21-alpine AS build
 
 # Set working directory
 WORKDIR /app
