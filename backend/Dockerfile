@@ -1,12 +1,15 @@
-# Use JDK 21-alpine as the base image
+# Use JDK 21 slim as the base image
 FROM openjdk:21-jdk-slim
 
 # Set working directory
 WORKDIR /app
 
-# Install necessary tools and Gradle manually
-RUN apt-get update && apt-get install -y wget unzip && \
-    wget https://services.gradle.org/distributions/gradle-8.3-bin.zip -O /tmp/gradle.zip && \
+# Install necessary tools
+RUN apt-get update && apt-get install -y --no-install-recommends wget unzip && \
+    apt-get clean && rm -rf /var/lib/apt/lists/*
+
+# Download and install Gradle manually
+RUN wget https://services.gradle.org/distributions/gradle-8.3-bin.zip -O /tmp/gradle.zip && \
     mkdir /opt/gradle && \
     unzip /tmp/gradle.zip -d /opt/gradle && \
     rm /tmp/gradle.zip
@@ -18,16 +21,18 @@ ENV PATH=$GRADLE_HOME/bin:$PATH
 # Verify Gradle installation
 RUN gradle --version
 
-# Copy Gradle Wrapper and project configuration files
-COPY gradlew ./
+# Copy Gradle Wrapper and configuration files
+COPY gradlew ./gradlew
 COPY gradle ./gradle
 COPY build.gradle settings.gradle ./
+
+# Ensure Gradle Wrapper has execute permissions
 RUN chmod +x gradlew
 
-# Download project dependencies
+# Download dependencies
 RUN ./gradlew dependencies --no-daemon
 
-# Copy the entire source code and build the project
+# Copy source code and build the project
 COPY . .
 RUN ./gradlew build -x test --no-daemon
 
