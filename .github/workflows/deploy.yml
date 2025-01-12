@@ -1,0 +1,46 @@
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. 소스코드 체크아웃
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # 2. Backend Docker 빌드 및 Push
+      - name: Build and Push Backend Image
+        uses: docker/build-push-action@v4
+        with:
+          push: true
+          tags: gus9300/flolink-backend-service:latest  # Backend 이미지 태그
+          context: ./backend
+          file: ./backend/Dockerfile
+        secrets:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      # 3. Frontend Docker 빌드 및 Push
+      - name: Build and Push Frontend Image
+        uses: docker/build-push-action@v4
+        with:
+          push: true
+          tags: gus9300/flolink-frontend-service:latest  # Frontend 이미지 태그
+          context: ./frontend
+          file: ./frontend/Dockerfile
+        secrets:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      # 4. 원격 서버로 배포
+      - name: Deploy to Server
+        uses: appleboy/ssh-action@v0.1.8
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SERVER_KEY }}
+          script: |
+            mkdir -p /home/ubuntu/flolink
+            cd /home/ubuntu/flolink
+            docker-compose down
+            docker-compose pull
+            docker-compose up -d
