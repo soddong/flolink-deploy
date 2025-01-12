@@ -31,7 +31,7 @@ RUN ./gradlew dependencies --no-daemon
 
 # Copy source code and build the project
 COPY . .
-RUN sudo ./gradlew build -x test --no-daemon
+RUN ./gradlew build -x test --no-daemon
 
 # Expose the application port
 EXPOSE 8080
