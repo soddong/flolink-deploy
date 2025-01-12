@@ -21,6 +21,7 @@ COPY build.gradle settings.gradle ./
 # Ensure Gradle Wrapper has execute permissions
 RUN dos2unix ./gradlew
 RUN chmod +x ./gradlew
+RUN chown root:root ./gradlew
 
 # Debug Gradle Wrapper
 RUN ls -l ./gradlew && ./gradlew --version
