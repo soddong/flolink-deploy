@@ -34,7 +34,7 @@ self.addEventListener("activate", function (e) {
 });
 
 self.addEventListener("notificationclick", (event) => {
-    const urlToOpen = new URL(`https://i11a608.p.ssafy.io`);
+    const urlToOpen = new URL(`http://129.154.51.253/`);
 
     event.waitUntil(
         clients

@@ -69,7 +69,7 @@ jobs:
               services:
                 mysql:
                   container_name: mysql
-                  image: flolink-deploy-mysql
+                  image: gus9300/flolink-deploy-mysql:latest
                   ports:
                     - "3306:3306"
                   environment:
