@@ -28,6 +28,7 @@ jobs:
 
       - name: Inject application.yml
         run: |
+          mkdir -p src/main/resources
           echo "${{ secrets.APPLICATION_YML }}" > src/main/resources/application.yml
 
       # 4. Backend Docker 빌드 및 Push
