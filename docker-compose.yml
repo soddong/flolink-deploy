@@ -2,7 +2,9 @@ version: '3.8'
 services:
   mysql:
     container_name: mysql
-    image: flolink-deploy-mysql
+    build:
+      context: ./mysql
+      dockerfile: Dockerfile
     ports:
       - "3306:3306"
     environment:
@@ -10,12 +12,8 @@ services:
       MYSQL_USER: gus9300
       MYSQL_PASSWORD: tvxq1226@
       MYSQL_ROOT_PASSWORD: rootpassword
-    healthcheck:
-      test: ["CMD-SHELL", "mysqladmin ping -h localhost -u gus9300 -ptvxq1226@ || exit 1"]
-      interval: 10s
-      timeout: 5s
-      retries: 3
     volumes:
+      - ./mysql/init.sql:/docker-entrypoint-initdb.d/init.sql
       - mysql-data:/var/lib/mysql
     restart: always
 

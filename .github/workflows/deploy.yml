@@ -48,6 +48,14 @@ jobs:
           tags: ${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}-frontend:latest
           context: ./frontend
           file: ./frontend/Dockerfile
+          
+      - name: Build and Push MySQL Image
+        uses: docker/build-push-action@v3
+        with:
+          push: true
+          tags: ${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}-mysql:latest
+          context: ./mysql
+          file: ./mysql/Dockerfile
 
       - name: Deploy to Server with Updated docker-compose.yml
         uses: appleboy/ssh-action@v0.1.8
@@ -58,45 +66,48 @@ jobs:
           script: |
             mkdir -p /home/ubuntu/flolink-deploy
             echo '
-            version: "3.8"
-            services:
-              mysql:
-                container_name: mysql
-                image: flolink-deploy-mysql
-                ports:
-                  - "3306:3306"
-                environment:
-                  MYSQL_DATABASE: flolink
-                  MYSQL_USER: gus9300
-                  MYSQL_PASSWORD: tvxq1226@
-                  MYSQL_ROOT_PASSWORD: rootpassword
-                healthcheck:
-                  test: ["CMD-SHELL", "mysqladmin ping -h localhost -u gus9300 -ptvxq1226@ || exit 1"]
-                  interval: 10s
-                  timeout: 5s
-                  retries: 3
-                volumes:
-                  - mysql-data:/var/lib/mysql
-                restart: always
-              backend:
-                image: ${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}-backend:latest
-                ports:
-                  - "8080:8080"
-                environment:
-                  SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/flolink
-                  SPRING_DATASOURCE_USERNAME: gus9300
-                  SPRING_DATASOURCE_PASSWORD: tvxq1226@
-                depends_on:
-                  - mysql
-              frontend:
-                image: ${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}-frontend:latest
-                ports:
-                  - "80:80"
-                environment:
-                  REACT_APP_BACKEND_URL: http://backend:8080
-            volumes:
-              mysql-data:
-                driver: local
+              version: '3.8'
+              services:
+                mysql:
+                  container_name: mysql
+                  image: flolink-deploy-mysql
+                  ports:
+                    - "3306:3306"
+                  environment:
+                    MYSQL_DATABASE: flolink
+                    MYSQL_USER: gus9300
+                    MYSQL_PASSWORD: tvxq1226@
+                    MYSQL_ROOT_PASSWORD: rootpassword
+                  healthcheck:
+                    test: ["CMD-SHELL", "mysqladmin ping -h localhost -u gus9300 -ptvxq1226@ || exit 1"]
+                    interval: 10s
+                    timeout: 5s
+                    retries: 3
+                  volumes:
+                    - mysql-data:/var/lib/mysql
+                  restart: always
+
+                backend:
+                  image: gus9300/flolink-deploy-backend:latest
+                  ports:
+                    - "8080:8080"
+                  environment:
+                    SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/flolink
+                    SPRING_DATASOURCE_USERNAME: gus9300
+                    SPRING_DATASOURCE_PASSWORD: tvxq1226@
+                  depends_on:
+                    - mysql
+
+                frontend:
+                  image: gus9300/flolink-deploy-frontend:latest
+                  ports:
+                    - "80:80"
+                  environment:
+                    REACT_APP_BACKEND_URL: http://backend:8080
+
+              volumes:
+                mysql-data:
+                  driver: local
             ' > /home/ubuntu/flolink-deploy/docker-compose.yml
             docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
             cd /home/ubuntu/flolink-deploy
