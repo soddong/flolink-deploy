@@ -4,10 +4,8 @@ services:
     image: gus9300/flolink-deploy-backend:latest
     ports:
       - "8080:8080"
-    environment:
-      SPRING_PROFILES_ACTIVE: production
 
   frontend:
     image: gus9300/flolink-deploy-frontend:latest
     ports:
-      - "80:80" # 프론트엔드 기본 포트
+      - "80:80"
