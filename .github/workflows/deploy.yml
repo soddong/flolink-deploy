@@ -30,7 +30,8 @@ jobs:
         run: |
           mkdir -p src/main/resources
           echo "${{ secrets.APPLICATION_YML }}" > src/main/resources/application.yml
-
+          cat src/main/resources/application.yml
+          
       # 4. Backend Docker 빌드 및 Push
       - name: Build and Push Backend Image
         uses: docker/build-push-action@v3
