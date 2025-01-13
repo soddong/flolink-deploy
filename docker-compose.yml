@@ -9,14 +9,14 @@ services:
       MYSQL_DATABASE: flolink
       MYSQL_USER: gus9300
       MYSQL_PASSWORD: tvxq1226@
-      TZ: Asia/Seoul
+      MYSQL_ROOT_PASSWORD: rootpassword
     healthcheck:
       test: ["CMD-SHELL", "mysqladmin ping -h localhost -u gus9300 -ptvxq1226@ || exit 1"]
       interval: 10s
       timeout: 5s
       retries: 3
     volumes:
-      - mysql:/var/lib/mysql
+      - mysql-data:/var/lib/mysql
     restart: always
 
   backend:
@@ -27,6 +27,8 @@ services:
       SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/flolink
       SPRING_DATASOURCE_USERNAME: gus9300
       SPRING_DATASOURCE_PASSWORD: tvxq1226@
+    depends_on:
+      - mysql
 
   frontend:
     image: gus9300/flolink-deploy-frontend:latest
