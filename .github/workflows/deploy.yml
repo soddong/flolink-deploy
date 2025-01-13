@@ -28,7 +28,7 @@ jobs:
 
       - name: Inject application.yml
         run: |
-          echo "${{ secrets.APPLICATION_YML }}" > backend/src/main/resources/application.yml
+          echo "${{ secrets.APPLICATION_YML }}" > src/main/resources/application.yml
 
       # 4. Backend Docker 빌드 및 Push
       - name: Build and Push Backend Image
