@@ -32,6 +32,16 @@ jobs:
           echo "${{ secrets.APPLICATION_YML }}" > src/main/resources/application.yml
           cat src/main/resources/application.yml
           
+      - name: Verify application.yml
+        run: |
+          if [ -f src/main/resources/application.yml ]; then
+            echo "application.yml exists and contains:"
+            cat src/main/resources/application.yml
+          else
+            echo "application.yml was not created."
+            exit 1
+          fi
+      
       # 4. Backend Docker 빌드 및 Push
       - name: Build and Push Backend Image
         uses: docker/build-push-action@v3
