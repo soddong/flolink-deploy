@@ -1,0 +1,63 @@
+spring:
+  jwt:
+    expiration:
+      access-token: 21600000
+      refresh-token: 86400000
+    secret: SSAFY-A608FloLinkProject35832517354352468743543873654387
+  security:
+    oauth2:
+      client:
+        registration:
+          kakao:
+            client-name: kakao
+            client-id: 5f9d7949f8df0fb7e32c4dbda7171434
+            client-secret: N4OtGKfNZF4PAUdHywrEJYh3jDgOKAmQ
+            redirect-uri: "{baseUrl}/{action}/oauth2/code/{registrationId}"
+            authorization-grant-type: authorization_code
+            client-authentication-method: client_secret_post
+            scope:
+              - profile_nickname
+          google:
+            client-name: google
+            client-id: 553016705502-354mgu2lobf3h45ga2j8ohrael192253.apps.googleusercontent.com
+            client-secret: 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
+            redirect-uri: "{baseUrl}/{action}/oauth2/code/{registrationId}"
+            authorization-grant-type: authorization_code
+            scope:
+              - email
+              - profile
+        provider:
+          kakao:
+            authorization-uri: https://kauth.kakao.com/oauth/authorize
+            token-uri: https://kauth.kakao.com/oauth/token
+            user-info-uri: https://kapi.kakao.com/v2/user/me
+            user-name-attribute: id
+  datasource:
+    url: ${SPRING_DATASOURCE_URL}
+    username: ${SPRING_DATASOURCE_USERNAME}
+    password: ${SPRING_DATASOURCE_PASSWORD}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
+        show_sql: false
+        format_sql: true
+    defer-datasource-initialization: true
+  sql:
+    init:
+      mode: always
+aws:
+  s3:
+    bucket: flolink-s3
+    access-key: AKIAX2KGDG355SESYRW7
+    secret-key: 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
+    region: ap-northeast-2
+
+nurigo:
+  api:
+    key: NCSP0K6DNQVU8CXM
+    secretKey: AJAWO3QEAIT3B34061IGMOBD3PQX9QQR
+    url: https://api.solapi.com
