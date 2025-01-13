@@ -42,9 +42,6 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
 	private Long ACCESS_TOKEN_EXPIRATION;
 	private LoginUserRequest creds = null;
 
-	@Value("${spring.login.target-uri}")
-	private String targetUrl;
-
 	@Override
 	public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws
 		AuthenticationException {

@@ -36,7 +36,7 @@ public class CustomSuccessHandler implements AuthenticationSuccessHandler {
 	private Long REFRESH_TOKEN_EXPIRATION;
 	@Value("${spring.jwt.expiration.access-token}")
 	private Long ACCESS_TOKEN_EXPIRATION;
-	@Value("${spring.login.target-uri}")
+	@Value("http://129.154.51.253/")
 	private String targetUrl;
 
 	@Override
