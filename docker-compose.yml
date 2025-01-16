@@ -28,9 +28,16 @@ services:
       - mysql
 
   frontend:
-    image: gus9300/flolink-deploy-frontend:latest
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
     ports:
-      - "80:80"
+      - '80:80'
+      - '443:443'
+    volumes:
+      - ./nginx/ssl:/etc/nginx/ssl
+    depends_on:
+      - backend
     environment:
       REACT_APP_BACKEND_URL: http://backend:8080
 
