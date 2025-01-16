@@ -35,9 +35,8 @@ services:
       - '80:80'
       - '443:443'
     volumes:
-      - ./nginx/ssl:/etc/nginx/ssl
-      - /etc/letsencrypt/live/yourdomain.com/fullchain.pem:/etc/nginx/ssl/cert.pem:ro
-      - /etc/letsencrypt/live/yourdomain.com/privkey.pem:/etc/nginx/ssl/key.pem:ro
+      - /etc/letsencrypt/live/flolink-plus.xyz/fullchain.pem:/etc/nginx/ssl/cert.pem:ro
+      - /etc/letsencrypt/live/flolink-plus.xyz/privkey.pem:/etc/nginx/ssl/key.pem:ro
     depends_on:
       - backend
     environment:
