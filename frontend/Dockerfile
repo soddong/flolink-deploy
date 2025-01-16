@@ -19,8 +19,6 @@ RUN npm run build
 # 2단계: 실행 단계
 FROM nginx:1.23-alpine
 
-COPY ./nginx/nginx.conf /etc/nginx/nginx.conf
-
 # Nginx 기본 설정 제거
 RUN rm -rf /usr/share/nginx/html/*
 
