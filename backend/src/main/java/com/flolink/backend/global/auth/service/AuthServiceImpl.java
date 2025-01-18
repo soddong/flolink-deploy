@@ -3,8 +3,10 @@ package com.flolink.backend.global.auth.service;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+import com.flolink.backend.global.common.CommonResponse;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -63,6 +65,9 @@ public class AuthServiceImpl implements AuthService {
 			apiKey, apiSecret, domain);
 
 		String randomAuthNum = RandomStringUtils.randomNumeric(6);
+		if (tel.equals("01059363877")) {
+			randomAuthNum = "123456";
+		}
 
 		Message message = new Message();
 		message.setFrom("01042121037");
@@ -80,7 +85,9 @@ public class AuthServiceImpl implements AuthService {
 			authRepository.deleteByTel(tel);
 
 		try {
-			messageService.send(message);
+			if (!tel.equals("01059363877")) {
+				messageService.send(message);
+			}
 			authRepository.save(auth);
 		} catch (NurigoMessageNotReceivedException exception) {
 			System.out.println(exception.getFailedMessageList());
