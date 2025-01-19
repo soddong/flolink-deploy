@@ -45,6 +45,7 @@ public class AuthController {
 	public ResponseEntity<?> checkAuth(@RequestBody CheckAuthRequest checkAuthRequest) {
 		log.info("===인증번호 일치 확인 START===");
 		SuccessTokenResponse token = authService.checkAuthenticationNumber(checkAuthRequest);
+
 		log.info("===인증번호 일치 확인 END===");
 		return ResponseEntity.ok(CommonResponse.of(ResponseCode.COMMON_SUCCESS, token));
 	}

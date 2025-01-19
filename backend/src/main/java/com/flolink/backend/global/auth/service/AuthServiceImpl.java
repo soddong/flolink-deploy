@@ -65,7 +65,7 @@ public class AuthServiceImpl implements AuthService {
 			apiKey, apiSecret, domain);
 
 		String randomAuthNum = RandomStringUtils.randomNumeric(6);
-		if (tel.equals("01059363877")) {
+		if (tel.equals("01012345678")) {
 			randomAuthNum = "123456";
 		}
 
@@ -85,7 +85,7 @@ public class AuthServiceImpl implements AuthService {
 			authRepository.deleteByTel(tel);
 
 		try {
-			if (!tel.equals("01059363877")) {
+			if (!tel.equals("01012345678")) {
 				messageService.send(message);
 			}
 			authRepository.save(auth);
