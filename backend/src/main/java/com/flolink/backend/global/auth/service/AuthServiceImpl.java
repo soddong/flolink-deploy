@@ -61,40 +61,41 @@ public class AuthServiceImpl implements AuthService {
 	@Override
 	@Transactional
 	public void sendAuthenticationNumber(String tel) {
-		DefaultMessageService messageService = NurigoApp.INSTANCE.initialize(
-			apiKey, apiSecret, domain);
-
-		String randomAuthNum = RandomStringUtils.randomNumeric(6);
-		if (tel.equals("01012345678")) {
-			randomAuthNum = "123456";
-		}
-
-		Message message = new Message();
-		message.setFrom("01042121037");
-		message.setTo(tel);
-		message.setText("본인확인 인증번호" + "[" + randomAuthNum + "]를 화면에 입력해주세요. 타인 노출 금지");
-
-		Auth auth = Auth.builder()
-			.tel(tel)
-			.authNum(randomAuthNum)
-			.expiredAt(LocalDateTime.now().plusMinutes(3))
-			.build();
-
-		// 이미 있으면 기존 인증 지우기 (재발송의 경우)
-		if (authRepository.existsByTel(tel))
-			authRepository.deleteByTel(tel);
-
-		try {
-			if (!tel.equals("01012345678")) {
-				messageService.send(message);
-			}
-			authRepository.save(auth);
-		} catch (NurigoMessageNotReceivedException exception) {
-			System.out.println(exception.getFailedMessageList());
-			System.out.println(exception.getMessage());
-		} catch (Exception exception) {
-			System.out.println(exception.getMessage());
-		}
+		log.info("유료 서비스 문제로 기능 OFF");
+//		DefaultMessageService messageService = NurigoApp.INSTANCE.initialize(
+//			apiKey, apiSecret, domain);
+//
+//		String randomAuthNum = RandomStringUtils.randomNumeric(6);
+//		if (tel.equals("01012345678")) {
+//			randomAuthNum = "123456";
+//		}
+//
+//		Message message = new Message();
+//		message.setFrom("01042121037");
+//		message.setTo(tel);
+//		message.setText("본인확인 인증번호" + "[" + randomAuthNum + "]를 화면에 입력해주세요. 타인 노출 금지");
+//
+//		Auth auth = Auth.builder()
+//			.tel(tel)
+//			.authNum(randomAuthNum)
+//			.expiredAt(LocalDateTime.now().plusMinutes(3))
+//			.build();
+//
+//		// 이미 있으면 기존 인증 지우기 (재발송의 경우)
+//		if (authRepository.existsByTel(tel))
+//			authRepository.deleteByTel(tel);
+//
+//		try {
+//			if (!tel.equals("01012345678")) {
+//				messageService.send(message);
+//			}
+//			authRepository.save(auth);
+//		} catch (NurigoMessageNotReceivedException exception) {
+//			System.out.println(exception.getFailedMessageList());
+//			System.out.println(exception.getMessage());
+//		} catch (Exception exception) {
+//			System.out.println(exception.getMessage());
+//		}
 	}
 
 	/**
@@ -104,37 +105,37 @@ public class AuthServiceImpl implements AuthService {
 	@Override
 	@Transactional
 	public SuccessTokenResponse checkAuthenticationNumber(CheckAuthRequest checkAuthRequest) {
-		if (successTokenRepository.existsByTel(checkAuthRequest.getTel())) {
-			successTokenRepository.deleteByTel(checkAuthRequest.getTel());
-		}
-
-		Auth auth = authRepository.findByTel(checkAuthRequest.getTel())
-			.orElseThrow(() -> new NotFoundException(ResponseCode.NOT_FOUND_AUTHNUM));
-
-		try { // 현재시간(now) 이 유효기간을 지났다면 TimeOutException, 인증번호 불일치라면 NotFoundException
-			LocalDateTime now = LocalDateTime.now();
-			if (now.isAfter(auth.getExpiredAt())) {
-				throw new TimeOutException(ResponseCode.TIME_OUT_EXCEPTION);
-			} else if (!auth.getAuthNum().equals(checkAuthRequest.getAuthNum())) {
-				System.out.println(auth.getAuthNum());
-				System.out.println(checkAuthRequest.getAuthNum());
-				throw new NotFoundException(ResponseCode.NOT_MATCH_AUTHNUM);
-			}
-		} finally {
-			authRepository.deleteByTel(checkAuthRequest.getTel());
-		}
-
-		SuccessToken successToken = SuccessToken.builder()
-			.tel(checkAuthRequest.getTel())
-			.token(UUID.randomUUID().toString().replaceAll("\\-", ""))
-			.createAt(LocalDateTime.now())
-			.expiredAt(LocalDateTime.now().plusMinutes(50))
-			.build();
-
-		successTokenRepository.save(successToken);
+//		if (successTokenRepository.existsByTel(checkAuthRequest.getTel())) {
+//			successTokenRepository.deleteByTel(checkAuthRequest.getTel());
+//		}
+//
+//		Auth auth = authRepository.findByTel(checkAuthRequest.getTel())
+//			.orElseThrow(() -> new NotFoundException(ResponseCode.NOT_FOUND_AUTHNUM));
+//
+//		try { // 현재시간(now) 이 유효기간을 지났다면 TimeOutException, 인증번호 불일치라면 NotFoundException
+//			LocalDateTime now = LocalDateTime.now();
+//			if (now.isAfter(auth.getExpiredAt())) {
+//				throw new TimeOutException(ResponseCode.TIME_OUT_EXCEPTION);
+//			} else if (!auth.getAuthNum().equals(checkAuthRequest.getAuthNum())) {
+//				System.out.println(auth.getAuthNum());
+//				System.out.println(checkAuthRequest.getAuthNum());
+//				throw new NotFoundException(ResponseCode.NOT_MATCH_AUTHNUM);
+//			}
+//		} finally {
+//			authRepository.deleteByTel(checkAuthRequest.getTel());
+//		}
+//
+//		SuccessToken successToken = SuccessToken.builder()
+//			.tel(checkAuthRequest.getTel())
+//			.token(UUID.randomUUID().toString().replaceAll("\\-", ""))
+//			.createAt(LocalDateTime.now())
+//			.expiredAt(LocalDateTime.now().plusMinutes(50))
+//			.build();
+//
+//		successTokenRepository.save(successToken);
 
 		return SuccessTokenResponse.builder()
-			.token(successToken.getToken())
+			.token("")
 			.build();
 	}
 
