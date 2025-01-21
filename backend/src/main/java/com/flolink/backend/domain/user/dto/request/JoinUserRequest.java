@@ -12,5 +12,4 @@ public class JoinUserRequest {
 	private String nickname;
 	private String tel;
 	private String token;
-
 }

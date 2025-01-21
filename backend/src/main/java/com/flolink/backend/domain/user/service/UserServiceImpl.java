@@ -66,21 +66,21 @@ public class UserServiceImpl implements UserService {
 			throw new DuplicateException(ResponseCode.DUPLICATE_LOGIN_ID);
 		}
 
-		SuccessToken successToken = successTokenRepository.findByToken(joinUserRequest.getToken())
-			.orElseThrow(() -> new NotFoundException(ResponseCode.NOT_FOUND_SUCCESSTOKEN));
+		// SuccessToken successToken = successTokenRepository.findByToken(joinUserRequest.getToken())
+		// 	.orElseThrow(() -> new NotFoundException(ResponseCode.NOT_FOUND_SUCCESSTOKEN));
 
-		//휴대폰인증 토큰 확인
-		try { // 토큰 불일치는 (not_authorized), 토큰 유효기간 초과는 (time_out_exception)
-			boolean isPermittedToken = successToken.getToken().equals(joinUserRequest.getToken());
-			if (!isPermittedToken) {
-				throw new UnAuthorizedException(ResponseCode.NOT_AUTHORIZED);
-			} else if (LocalDateTime.now().isAfter(successToken.getExpiredAt())) {
-				throw new TimeOutException(ResponseCode.TIME_OUT_EXCEPTION);
-			}
-		} finally {
-			// 어쨌든 사용한건 지워야한다.
-			successTokenRepository.delete(successToken);
-		}
+		// //휴대폰인증 토큰 확인
+		// try { // 토큰 불일치는 (not_authorized), 토큰 유효기간 초과는 (time_out_exception)
+		// 	boolean isPermittedToken = successToken.getToken().equals(joinUserRequest.getToken());
+		// 	if (!isPermittedToken) {
+		// 		throw new UnAuthorizedException(ResponseCode.NOT_AUTHORIZED);
+		// 	} else if (LocalDateTime.now().isAfter(successToken.getExpiredAt())) {
+		// 		throw new TimeOutException(ResponseCode.TIME_OUT_EXCEPTION);
+		// 	}
+		// } finally {
+		// 	// 어쨌든 사용한건 지워야한다.
+		// 	successTokenRepository.delete(successToken);
+		// }
 
 		MyRoom myRoom = MyRoom.createMyRoom();
 
