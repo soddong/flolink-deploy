@@ -25,7 +25,7 @@ function SignupPage() {
   const [fullName, setFullName] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
   const [successToken, setSuccessToken] = useState('');
-  const isFormValid = password && confirmPassword && passwordSame && username && nickname && !nicknameError && fullName && phoneNumber;
+  const isFormValid = password && confirmPassword && passwordSame && username && nickname && !nicknameError && fullName ;
   // const isFormValid = true;
 
   useEffect(() => {
@@ -172,42 +172,8 @@ function SignupPage() {
               placeholder="예) 이싸피"
               setFullName={setFullName}
             />
-            <div className="flex items-center gap-3 mb-0">
-              <div className="flex flex-col">
-                <label className="block text-gray-700 mb">통신사</label>
-                <select
-                  value={selectedTelecom}
-                  onChange={(e) => setSelectedTelecom(e.target.value)}
-                  className="p-2 border rounded focus:outline-none focus:border-pink-500"
-                >
-                  <option value="KT">KT</option>
-                  <option value="SKT">SKT</option>
-                  <option value="LGU+">LGU+</option>
-                </select>
-              </div>
-              <PhoneNumberField
-                label="휴대전화번호"
-                placeholder="'-'를 빼고 입력해주세요"
-                setPhoneNumber={setPhoneNumber}
-                onChange={handlePhoneNumberChange}
-              />
-            </div>
-            {successToken === "" && (
-              <Button text="전송" variant="solid" onClick={handleSendCode} disabled={!isFormValid} />
-            )}{
-              successToken !== "" && (
-                <Button text="가입하기" variant="solid" onClick={handleRegist} disabled={!isFormValid} />
-              )
-            }
+            <Button text="가입하기" variant="solid" onClick={handleRegist} disabled={!isFormValid} />
           </form>
-          {isModalOpen && (
-            <ToastModal
-              message="문자로 전달받은\n인증번호 6자리를 입력해주세요."
-              onClose={handleCloseModal}
-              phoneNumber={phoneNumber}
-              onSuccess={handleSuccess} // 성공 시 호출될 핸들러
-            />
-          )}
         </div>
       </div>
     </SignupWrapper>
