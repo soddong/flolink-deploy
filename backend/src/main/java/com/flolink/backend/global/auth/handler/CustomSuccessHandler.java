@@ -36,7 +36,7 @@ public class CustomSuccessHandler implements AuthenticationSuccessHandler {
 	private Long REFRESH_TOKEN_EXPIRATION;
 	@Value("${spring.jwt.expiration.access-token}")
 	private Long ACCESS_TOKEN_EXPIRATION;
-	@Value("http://129.154.51.253/")
+	@Value("https://flolink-plus.xyz")
 	private String targetUrl;
 
 	@Override
