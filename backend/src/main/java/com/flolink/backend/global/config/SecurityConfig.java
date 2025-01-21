@@ -59,7 +59,7 @@ public class SecurityConfig {
 				public CorsConfiguration getCorsConfiguration(HttpServletRequest request) {
 					CorsConfiguration configuration = new CorsConfiguration();
 
-					configuration.setAllowedOrigins(Collections.singletonList("*"));//프론트앤드 서버
+					configuration.setAllowedOrigins(Collections.singletonList("https://flolink-plus.xyz"));
 					configuration.setAllowedMethods(Collections.singletonList("*"));
 					configuration.setAllowCredentials(true);
 					configuration.setAllowedHeaders(Collections.singletonList("*"));

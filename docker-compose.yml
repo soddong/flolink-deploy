@@ -1,9 +1,7 @@
 services:
   mysql:
     container_name: mysql
-    build:
-      context: ./mysql
-      dockerfile: Dockerfile
+    image: gus9300/flolink-deploy-mysql:latest
     ports:
       - "3306:3306"
     environment:
@@ -28,9 +26,7 @@ services:
       - mysql
 
   frontend:
-    build:
-      context: ./frontend
-      dockerfile: Dockerfile
+    image: gus9300/flolink-deploy-frontend:latest
     ports:
       - '80:80'
       - '443:443'
@@ -41,8 +37,9 @@ services:
     depends_on:
       - backend
     environment:
-      REACT_APP_BACKEND_URL: https://flolink-plus.xyz:8080
+      REACT_APP_BACKEND_URL: http://backend:8080
 
 volumes:
   mysql-data:
     driver: local
+    
