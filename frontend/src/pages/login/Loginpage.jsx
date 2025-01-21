@@ -78,7 +78,7 @@ function LoginPage() {
       <hr className={LoginPageStyle.divider} />
 
       <Typography className={LoginPageStyle.snsLogin}>SNS 로그인</Typography>
-      <Box className={LoginPageStyle.snsContainer}>
+      {/* <Box className={LoginPageStyle.snsContainer}> */}
       <Button
           className={`${LoginPageStyle.snsButton} ${LoginPageStyle.kakaoButton}`}
           variant="contained"
@@ -93,7 +93,7 @@ function LoginPage() {
         >
           <img src={googleLogo} alt="Google" className={LoginPageStyle.snsLogo} /> 구글로 계속
         </Button> */}
-      </Box>
+      {/* </Box> */}
     </div>
   );
 }

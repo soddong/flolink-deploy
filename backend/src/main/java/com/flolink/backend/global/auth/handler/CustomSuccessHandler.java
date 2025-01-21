@@ -32,12 +32,12 @@ public class CustomSuccessHandler implements AuthenticationSuccessHandler {
 
 	private final JwtUtil jwtUtil;
 	private final RefreshRepository refreshRepository;
-	@Value("${spring.jwt.expiration.refresh-token}")
-	private Long REFRESH_TOKEN_EXPIRATION;
-	@Value("${spring.jwt.expiration.access-token}")
-	private Long ACCESS_TOKEN_EXPIRATION;
-	@Value("https://flolink-plus.xyz")
-	private String targetUrl;
+	// @Value("${spring.jwt.expiration.refresh-token}")
+	private Long REFRESH_TOKEN_EXPIRATION = 86400000L;
+	// @Value("${spring.jwt.expiration.access-token}")
+	private Long ACCESS_TOKEN_EXPIRATION = 21600000L;
+	// @Value("https://flolink-plus.xyz")
+	private String targetUrl = "https://flolink-plus.xyz";
 
 	@Override
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
