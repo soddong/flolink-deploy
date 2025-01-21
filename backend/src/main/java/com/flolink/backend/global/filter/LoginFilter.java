@@ -37,9 +37,9 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
 	private final RefreshRepository refreshRepository;
 	private final AuthenticationManager authenticationManager;
 	// @Value("${spring.jwt.expiration.refresh-token}")
-	private Long REFRESH_TOKEN_EXPIRATION = 86400000;
+	private Long REFRESH_TOKEN_EXPIRATION = 86400000L;
 	// @Value("${spring.jwt.expiration.access-token}")
-	private Long ACCESS_TOKEN_EXPIRATION = 21600000;
+	private Long ACCESS_TOKEN_EXPIRATION = 21600000L;
 	private LoginUserRequest creds = null;
 
 	@Override
