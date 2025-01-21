@@ -86,13 +86,13 @@ function LoginPage() {
         >
           <img src={kakaoLogo} alt="Kakao" className={LoginPageStyle.snsLogo} /> 카카오로 계속
         </Button>
-        <Button
+        {/* <Button
           className={`${LoginPageStyle.snsButton} ${LoginPageStyle.googleButton}`}
           variant="contained"
           href={`${BASE_URL}/oauth2/authorization/google`}
         >
           <img src={googleLogo} alt="Google" className={LoginPageStyle.snsLogo} /> 구글로 계속
-        </Button>
+        </Button> */}
       </Box>
     </div>
   );
