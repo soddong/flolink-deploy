@@ -9,9 +9,11 @@ services:
       MYSQL_USER: gus9300
       MYSQL_PASSWORD: tvxq1226@
       MYSQL_ROOT_PASSWORD: rootpassword
+      TZ: Asia/Seoul
     volumes:
       - ./mysql/init.sql:/docker-entrypoint-initdb.d/init.sql
       - mysql-data:/var/lib/mysql
+      - /etc/timezone:/etc/timezone:ro
     restart: always
 
   backend:
@@ -22,6 +24,9 @@ services:
       SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/flolink
       SPRING_DATASOURCE_USERNAME: gus9300
       SPRING_DATASOURCE_PASSWORD: tvxq1226@
+      TZ: Asia/Seoul
+    volumes:
+      - /etc/timezone:/etc/timezone:ro
     depends_on:
       - mysql
 
@@ -34,12 +39,14 @@ services:
       - /etc/letsencrypt/live/flolink-plus.xyz/fullchain.pem:/etc/nginx/ssl/fullchain.pem
       - /etc/letsencrypt/live/flolink-plus.xyz/privkey.pem:/etc/nginx/ssl/privkey.pem
       - /home/ubuntu/flolink-deploy/nginx/nginx.conf:/etc/nginx/nginx.conf
+      - /etc/timezone:/etc/timezone:ro
     depends_on:
       - backend
     environment:
       REACT_APP_BACKEND_URL: http://backend:8080
-
+      TZ: Asia/Seoul
 volumes:
   mysql-data:
     driver: local
+
     

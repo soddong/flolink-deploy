@@ -7,10 +7,5 @@ ENV MYSQL_USER=gus9300
 ENV MYSQL_PASSWORD=tvxq1226@
 ENV MYSQL_ROOT_PASSWORD=rootpassword
 
-# tzdata 설치 및 시간대 설정
-RUN apk add --no-cache tzdata && \
-    cp /usr/share/zoneinfo/Asia/Seoul /etc/localtime && \
-    echo "Asia/Seoul" > /etc/timezone
-
 # 초기화 SQL 스크립트 추가 (옵션)
 ADD ./init.sql /docker-entrypoint-initdb.d/

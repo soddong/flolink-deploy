@@ -22,11 +22,6 @@ FROM nginx:1.23-alpine
 # Nginx 기본 설정 제거
 RUN rm -rf /usr/share/nginx/html/*
 
-# 시간대 설정
-RUN apk add --no-cache tzdata && \
-    cp /usr/share/zoneinfo/Asia/Seoul /etc/localtime && \
-    echo "Asia/Seoul" > /etc/timezone
-
 # 빌드 결과물을 Nginx로 복사
 COPY --from=build /app/dist /usr/share/nginx/html
 
