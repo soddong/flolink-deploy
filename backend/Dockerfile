@@ -4,13 +4,16 @@ FROM openjdk:21-jdk-slim
 # Set working directory
 WORKDIR /app
 
-# Install necessary tools
+# Install necessary tools and set timezone
 RUN apt-get update && apt-get install -y \
     bash \
     libc6 \
     wget \
     unzip \
     dos2unix \
+    tzdata \
+    && ln -fs /usr/share/zoneinfo/Asia/Seoul /etc/localtime \
+    && dpkg-reconfigure -f noninteractive tzdata \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Copy Gradle Wrapper and configuration files
