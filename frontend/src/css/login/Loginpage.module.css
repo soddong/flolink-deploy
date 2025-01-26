@@ -64,7 +64,6 @@
 }
 
 .snsButton {
-    width: 390px !important; 
     height: 40px !important; 
     border-radius: 5px !important;
     display: flex;
@@ -74,6 +73,8 @@
     text-align: center;
     padding: 8px !important;
     color: #000 !important;
+    width: 90%;
+    max-width: 390px;
 }
 
 .kakaoButton {

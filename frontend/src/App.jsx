@@ -132,7 +132,7 @@ const router = createBrowserRouter([
     <AnimatedLayout>
       <YourRoomPage />
     </AnimatedLayout>
-  }
+  },
 ])
 
 function App() {

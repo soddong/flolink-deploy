@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { axiosCommonInstance } from "../../apis/axiosInstance";
 
-function KakaoLoginRedirectPage() {
+function LoginRedirectPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const queryParams = new URLSearchParams(window.location.search);
@@ -12,6 +12,8 @@ function KakaoLoginRedirectPage() {
   useEffect(() => {
     const fetchDataAndNavigate = async () => {
       try {
+        console.log("=======")
+        console.log(accessToken)
         if (accessToken) {
           localStorage.setItem("ACCESS_TOKEN", accessToken);
           axiosCommonInstance.defaults.headers.common["Authorization"] = bearerToken;
@@ -67,4 +69,4 @@ function KakaoLoginRedirectPage() {
   return null;
 }
 
-export default KakaoLoginRedirectPage;
+export default LoginRedirectPage;
