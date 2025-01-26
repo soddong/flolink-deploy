@@ -21,6 +21,7 @@ import YourRoomPage from './pages/my_room/yourRoomPage';
 import NewFeedListPage from './pages/feed/NewFeedListPage';
 import NewFeedCreatePage from './pages/feed/NewFeedCreatePage';
 import AnimatedLayout from './pages/animation/AnimatedLayout';
+import IntroPage from './pages/intro/IntroPage';
 
 const router = createBrowserRouter([  
   {
@@ -29,6 +30,11 @@ const router = createBrowserRouter([
     <AnimatedLayout>
       <LoadingPage />
     </AnimatedLayout>
+  },
+  {
+    path: "/intro",
+    element: 
+      <IntroPage /> 
   },
   {
     path : "/channelselect",
