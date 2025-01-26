@@ -13,8 +13,7 @@ function KakaoLoginRedirectPage() {
     const fetchDataAndNavigate = async () => {
       try {
         if (accessToken) {
-          const bearerToken = `Bearer ${accessToken}`;
-          localStorage.setItem("ACCESS_TOKEN", bearerToken);
+          localStorage.setItem("ACCESS_TOKEN", accessToken);
           axiosCommonInstance.defaults.headers.common["Authorization"] = bearerToken;
           setLoading(false);
           navigate("/channelselect");

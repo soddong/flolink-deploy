@@ -33,7 +33,7 @@ axiosCommonInstance.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem("ACCESS_TOKEN");
     if (token) {
-      config.headers.Authorization = `Bearer ${token}`; // Bearer 추가
+      config.headers.Authorization = token; // Bearer 추가
     }
     return config;
   },
@@ -63,7 +63,7 @@ axiosCommonInstance.interceptors.response.use(
 
       return new Promise((resolve) => {
         pendingRequests.push((token) => {
-          originalRequest.headers.Authorization = `Bearer ${token}`;
+          originalRequest.headers.Authorization = token;
           resolve(axiosCommonInstance(originalRequest));
         });
       });

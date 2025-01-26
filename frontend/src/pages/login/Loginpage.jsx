@@ -40,7 +40,7 @@ function LoginPage() {
       const response = await login(username, password); // 로그인 API 호출
       const accessToken = response.headers.authorization; // 헤더에서 토큰 추출
       localStorage.setItem('ACCESS_TOKEN', accessToken); // 토큰 저장
-      axiosCommonInstance.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
+      axiosCommonInstance.defaults.headers.common['Authorization'] = accessToken;
       navigate('/channelselect'); // 성공적으로 로그인하면 이동
     } catch (error) {
       console.error("로그인 실패:", error.response || error.message);
