@@ -2,51 +2,53 @@ import React, { useState, useEffect } from 'react';
 import { Button, TextField, Box, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import logo from '../../assets/logo/logo.png'
+import logo from '../../assets/logo/logo.png';
 import kakaoLogo from '../../assets/login/kakao.png';
-import googleLogo from '../../assets/login/google.png';
 import LoginPageStyle from '../../css/login/Loginpage.module.css';
 import { axiosCommonInstance } from '../../apis/axiosInstance';
-import { login } from '../../service/auth/auth.js' 
-import { getMyInfoinChannelSelect } from '../../service/userroom/userroomApi.js';
+import { login } from '../../service/auth/auth.js';
 
 function LoginPage() {
   const navigate = useNavigate();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const BASE_URL = import.meta.env.VITE_BASE_URL;
+  const BASE_URL = import.meta.env.VITE_BASE_URL || "http://localhost:8080"; // 기본값 추가
 
   useEffect(() => {
     const checkAuthAndRedirect = async () => {
       const token = localStorage.getItem("ACCESS_TOKEN");
-      console.log('Loginpage.jsx 마운트 됨.')
+      console.log("LoginPage.jsx 마운트 됨.");
       if (token) {
         try {
-          myinfores = await axiosCommonInstance.get('/users/myInfo');
-          if(myinfores.status == "200"){
-            navigate('/channelselect'); 
+          const myInfoRes = await axiosCommonInstance.get('/users/myInfo');
+          if (myInfoRes.status === 200) {
+            navigate('/channelselect'); // 로그인 상태라면 이동
           }
         } catch (error) {
-          console.log("accessToken 존재하나, 에러 catch됨")
+          console.error("ACCESS_TOKEN 유효하지 않음. 에러 발생:", error);
           localStorage.removeItem("ACCESS_TOKEN");
           document.cookie = "refresh=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
         }
       }
     };
-    
+
     checkAuthAndRedirect();
-  }, []);
+  }, [navigate]);
 
   const handleLogin = async () => {
     try {
-      const { headers } = await login(username, password); // await으로 로그인 요청 처리
-      const accessToken = headers.authorization; // headers에서 accessToken 추출
-      localStorage.setItem('ACCESS_TOKEN', accessToken); // localStorage에 저장
-      axiosCommonInstance.defaults.headers.common['Authorization'] = accessToken; // axios 인스턴스에 헤더 설정
-      navigate('/channelselect'); // 로그인 성공 후 페이지 이동
+      const response = await login(username, password); // 로그인 API 호출
+      const accessToken = response.headers.authorization; // 헤더에서 토큰 추출
+      localStorage.setItem('ACCESS_TOKEN', accessToken); // 토큰 저장
+      axiosCommonInstance.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
+      navigate('/channelselect'); // 성공적으로 로그인하면 이동
     } catch (error) {
-      console.error(error); // 자세한 에러 정보를 로그로 남김
-      alert('로그인 실패: 아이디 또는 비밀번호를 확인해주세요.'); // 에러 처리
+      console.error("로그인 실패:", error.response || error.message);
+      if (error.response?.status === 401) {
+        alert('로그인 실패: 아이디 또는 비밀번호를 확인해주세요.');
+      } else {
+        alert('서버에 문제가 발생했습니다. 잠시 후 다시 시도해주세요.');
+      }
     }
   };
 
@@ -68,23 +70,31 @@ function LoginPage() {
         value={password}
         onChange={(e) => setPassword(e.target.value)}
       />
-      <Button className={LoginPageStyle.customButton} variant="contained" onClick={handleLogin}>로그인</Button>
+      <Button className={LoginPageStyle.customButton} variant="contained" onClick={handleLogin}>
+        로그인
+      </Button>
       <Box className={LoginPageStyle.linksContainer}>
-        <Button className={LoginPageStyle.linkButton} onClick={() => navigate('/FindAccount')}>아이디 찾기</Button>
-        <Button className={LoginPageStyle.linkButton} onClick={() => navigate('/FindAccount')}>비밀번호 찾기</Button>
-        <Button className={LoginPageStyle.linkButton} onClick={() => navigate('/signup')}>회원가입</Button>
+        <Button className={LoginPageStyle.linkButton} onClick={() => navigate('/FindAccount')}>
+          아이디 찾기
+        </Button>
+        <Button className={LoginPageStyle.linkButton} onClick={() => navigate('/FindAccount')}>
+          비밀번호 찾기
+        </Button>
+        <Button className={LoginPageStyle.linkButton} onClick={() => navigate('/signup')}>
+          회원가입
+        </Button>
       </Box>
 
       <hr className={LoginPageStyle.divider} />
 
       <Typography className={LoginPageStyle.snsLogin}>SNS 로그인</Typography>
       <Button
-          className={`${LoginPageStyle.snsButton} ${LoginPageStyle.kakaoButton}`}
-          variant="contained"
-          href={`${BASE_URL}/oauth2/authorization/kakao`}
-        >
-          <img src={kakaoLogo} alt="Kakao" className={LoginPageStyle.snsLogo} /> 카카오로 계속
-        </Button>
+        className={`${LoginPageStyle.snsButton} ${LoginPageStyle.kakaoButton}`}
+        variant="contained"
+        href={`${BASE_URL}/oauth2/authorization/kakao`}
+      >
+        <img src={kakaoLogo} alt="Kakao" className={LoginPageStyle.snsLogo} /> 카카오로 계속
+      </Button>
     </div>
   );
 }
