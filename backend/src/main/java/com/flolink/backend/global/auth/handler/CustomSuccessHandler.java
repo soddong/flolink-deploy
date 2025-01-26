@@ -76,7 +76,7 @@ public class CustomSuccessHandler implements AuthenticationSuccessHandler {
 		// response.addHeader("Authorization", "Bearer " + access);
 		response.addCookie(jwtUtil.createCookies("refresh", refresh));
 		response.setStatus(HttpStatus.OK.value());
-		response.sendRedirect(targetUrl + "?accessToken=Bearer " + access);
+		response.sendRedirect(targetUrl + "/auth/fetch?accessToken=Bearer " + access);
 	}
 
 	protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response,

@@ -11,9 +11,6 @@ RUN apt-get update && apt-get install -y \
     wget \
     unzip \
     dos2unix \
-    tzdata \
-    && ln -fs /usr/share/zoneinfo/Asia/Seoul /etc/localtime \
-    && dpkg-reconfigure -f noninteractive tzdata \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Copy Gradle Wrapper and configuration files
