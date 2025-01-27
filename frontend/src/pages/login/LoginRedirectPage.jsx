@@ -16,7 +16,7 @@ function LoginRedirectPage() {
         console.log(accessToken)
         if (accessToken) {
           localStorage.setItem("ACCESS_TOKEN", accessToken);
-          axiosCommonInstance.defaults.headers.common["Authorization"] = bearerToken;
+          axiosCommonInstance.defaults.headers.common["Authorization"] = accessToken;
           setLoading(false);
           navigate("/channelselect");
         } else {
