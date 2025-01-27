@@ -44,21 +44,20 @@ services:
       - backend
     environment:
       REACT_APP_BACKEND_URL: http://backend:8080
-      
       TZ: Asia/Seoul
+      
   minio:
-    image: minio/minio:latest
-    container_name: minio
+    image: gus9300/flolink-deploy-minio:latest
     environment:
       MINIO_ROOT_USER: soddong
       MINIO_ROOT_PASSWORD: tvxq1226@
     ports:
       - "9000:9000"
-      - "9001:9001" # 웹 UI
+      - "9001:9001"
     command: server /data --address ":9000" --console-address ":9001"
     volumes:
       - ./data:/data
-
+      - ./init-bucket.sh:/docker-entrypoint-initdb.d/init-bucket.sh  # 스크립트 파일 추가
 
 volumes:
   mysql-data:
