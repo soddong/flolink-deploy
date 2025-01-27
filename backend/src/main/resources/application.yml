@@ -54,10 +54,10 @@ spring:
       mode: always
 aws:
   s3:
-    bucket: flolink-s3
-    access-key: AKIAX2KGDG355SESYRW7
-    secret-key: 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
-    region: ap-northeast-2
+    bucket: flolink
+    access-key: soddong
+    secret-key: tvxq1226@
+    endpoint: http://127.0.0.1:9000
 
 nurigo:
   api:
