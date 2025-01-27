@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Configuration;
 
 import software.amazon.awssdk.auth.credentials.AwsBasicCredentials;
 import software.amazon.awssdk.auth.credentials.StaticCredentialsProvider;
+import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.S3Configuration;
 
@@ -27,12 +28,12 @@ public class S3Config {
 	public S3Client s3Client() {
 		AwsBasicCredentials awsCreds = AwsBasicCredentials.create(accessKey, secretKey);
 
-		return S3Client
-				.builder()
-				.endpointOverride(URI.create(endpoint)) // MinIO 엔드포인트 설정
+		return S3Client.builder()
 				.credentialsProvider(StaticCredentialsProvider.create(awsCreds))
+				.endpointOverride(URI.create(endpoint)) // MinIO 엔드포인트 설정
+				.region(Region.of("us-east-1")) // 기본 Region 설정
 				.serviceConfiguration(S3Configuration.builder()
-						.pathStyleAccessEnabled(true) // MinIO는 path-style을 사용
+						.pathStyleAccessEnabled(true) // MinIO는 Path-Style URL을 사용
 						.build())
 				.build();
 	}
