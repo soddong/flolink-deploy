@@ -29,7 +29,7 @@ const FeedItem = ({ feed, currentUser, onEditComment, onDeleteComment, onAddComm
         >
           {feed.images.map((src, index) => (
             <div key={index} className='relative w-full h-64'>
-              <img src={`https://flolink-s3.s3.ap-northeast-2.amazonaws.com/${feed?.images[index]?.imageUrl}`} alt={`feed-${index}`} className="absolute inset-0 w-full h-full object-cover rounded-md" />
+              <img src={`http://minio:9000/${feed?.images[index]?.imageUrl}`} alt={`feed-${index}`} className="absolute inset-0 w-full h-full object-cover rounded-md" />
             </div>
           ))}
         </Carousel>
