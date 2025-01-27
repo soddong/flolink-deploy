@@ -57,7 +57,9 @@ aws:
     bucket: flolink
     access-key: soddong
     secret-key: tvxq1226@
-    endpoint: http://127.0.0.1:9000
+    endpoint: http://minio:9000 # Docker 컨테이너의 Minio 주소를 사용
+    region: us-east-1 # S3 호환이므로 적절한 리전 설정
+    path-style-access: true # Minio는 기본적으로 경로 스타일을 사용하므로 설정 필요
 
 nurigo:
   api:

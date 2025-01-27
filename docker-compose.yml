@@ -44,9 +44,23 @@ services:
       - backend
     environment:
       REACT_APP_BACKEND_URL: http://backend:8080
+      
       TZ: Asia/Seoul
+  minio:
+    image: minio/minio:latest
+    container_name: minio
+    environment:
+      MINIO_ROOT_USER: soddong
+      MINIO_ROOT_PASSWORD: tvxq1226@
+    ports:
+      - "9000:9000"
+      - "9001:9001" # 웹 UI
+    command: server /data --address ":9000" --console-address ":9001"
+    volumes:
+      - ./data:/data
+
+
 volumes:
   mysql-data:
     driver: local
 
-    
