@@ -42,7 +42,7 @@ const NewFeedForm = ({ feed }) => {
             const fetchImages = async () => {
                 const files = await Promise.all(
                     feed[0]?.images?.map(async (element) => {
-                        const response = await fetch(`http://minio:9000/${element.imageUrl}`);
+                        const response = await fetch(`http://flolink-plus.xyz:9000/flolink/${element.imageUrl}`);
                         const blob = await response.blob();
                         return new File([blob], element.imageUrl, { type: blob.type });
                     })

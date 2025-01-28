@@ -42,7 +42,7 @@ const ImageModal = ({ isOpen, onClose, images }) => {
             >
                 {images.map((image, index) => (
                     <div key={index}>
-                        <img src={`http://minio:9000/${image.imageUrl}`} alt={`feed-${index}`} style={{ width: '100%', height: 'auto' }} />
+                        <img src={`http://flolink-plus.xyz:9000/flolink/${image.imageUrl}`} alt={`feed-${index}`} style={{ width: '100%', height: 'auto' }} />
                     </div>
                 ))}
             </Carousel>

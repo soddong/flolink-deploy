@@ -33,7 +33,7 @@ function FlowerModal ({ month, flower, setFlowerModal, flowerdata }) {
           <div className='w-full h-64 bg-center bg-contain bg-no-repeat flex justify-center items-center'
             style={{'backgroundImage': `url(${movieFrame})`, 'backgroundSize': '100% 100%'}}
             key={index}>
-              <img src={`http://minio:9000/${image?.imageUrl}`} alt="dummy_photo"
+              <img src={`http://flolink-plus.xyz:9000/flolink/${image?.imageUrl}`} alt="dummy_photo"
               style={{'height': '72%', 'width': '93%'}} />
           </div>
         )))
